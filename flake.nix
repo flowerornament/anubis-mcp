@@ -46,7 +46,12 @@
       default = pkgs.stdenv.mkDerivation {
         pname = "anubis-mcp";
         version = "1.6.2"; # x-release-please-version
-        src = ./.;
+        src = pkgs.lib.fileset.toSource {
+          root = ./.;
+          fileset = pkgs.lib.fileset.unions [
+            ./mix.exs ./mix.lock ./lib ./config ./priv
+          ];
+        };
 
         buildInputs = with pkgs; [
           elixir-bin.latest
